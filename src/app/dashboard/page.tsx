@@ -7,28 +7,8 @@ import AlertsCard from '@/components/aquaguard/alerts-card';
 import ConservationTipsCard from '@/components/aquaguard/conservation-tips-card';
 import { dailyUsage, weeklyUsage, monthlyUsage, alerts } from '@/lib/mock-data';
 import { Droplets, Zap } from 'lucide-react';
-import { useAuth } from '@/context/auth-provider';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function Dashboard() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-background">
-        <p>Cargando...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
