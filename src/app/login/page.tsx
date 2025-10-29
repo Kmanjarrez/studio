@@ -36,9 +36,9 @@ function mapFirebaseAuthError(errorCode: string): string {
   switch (errorCode) {
     case 'auth/user-not-found':
     case 'auth/invalid-email':
-      return 'No se encontró ningún usuario con este correo electrónico.';
-    case 'auth/wrong-password':
     case 'auth/invalid-credential':
+      return 'El correo o la contraseña son incorrectos. Por favor, inténtalo de nuevo.';
+    case 'auth/wrong-password':
       return 'La contraseña es incorrecta. Por favor, inténtalo de nuevo.';
     default:
       return 'Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.';
