@@ -22,16 +22,32 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-type UsageChartProps = {
-  data: { hour: string; consumption: number }[];
+type UsageData = {
+  hour?: string;
+  day?: string;
+  consumption: number;
 };
 
-export default function UsageChart({ data }: UsageChartProps) {
+type UsageChartProps = {
+  data: UsageData[];
+  timeInterval: 'day' | 'week';
+};
+
+export default function UsageChart({ data, timeInterval }: UsageChartProps) {
+  const isWeekly = timeInterval === 'week';
+  const dataKey = isWeekly ? 'day' : 'hour';
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Consumo de Agua de Hoy</CardTitle>
-        <CardDescription>Consumo por hora en Litros</CardDescription>
+        <CardTitle>
+          {isWeekly ? 'Consumo Semanal de Agua' : 'Consumo de Agua de Hoy'}
+        </CardTitle>
+        <CardDescription>
+          {isWeekly
+            ? 'Consumo diario en Litros durante la última semana'
+            : 'Consumo por hora en Litros'}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
@@ -40,16 +56,19 @@ export default function UsageChart({ data }: UsageChartProps) {
             data={data}
             margin={{
               left: -20,
-              top: 10
+              top: 10,
             }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="hour"
+              dataKey={dataKey}
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => (parseInt(value) % 2 === 0 ? `${value}` : '')}
+              tickFormatter={(value) => {
+                if (isWeekly) return value;
+                return parseInt(value) % 2 === 0 ? `${value}` : '';
+              }}
             />
             <YAxis
               stroke="hsl(var(--muted-foreground))"

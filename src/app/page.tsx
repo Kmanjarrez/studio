@@ -4,7 +4,7 @@ import ValveControl from '@/components/aquaguard/valve-control';
 import UsageChart from '@/components/aquaguard/usage-chart';
 import AlertsCard from '@/components/aquaguard/alerts-card';
 import ConservationTipsCard from '@/components/aquaguard/conservation-tips-card';
-import { dailyUsage, weeklyUsage, alerts } from '@/lib/mock-data';
+import { weeklyUsage, alerts } from '@/lib/mock-data';
 import { Droplets, Zap } from 'lucide-react';
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
           </h2>
           <div className="grid gap-6 lg:grid-cols-1 animate-in fade-in-0 slide-in-from-top-8 duration-700">
             <div className="lg:col-span-1">
-              <UsageChart data={dailyUsage} />
+              <UsageChart data={weeklyUsage} timeInterval="week" />
             </div>
             <div className="lg:col-span-1">
               <AlertsCard alerts={alerts} />
