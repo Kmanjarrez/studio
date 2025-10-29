@@ -25,29 +25,42 @@ const chartConfig = {
 type UsageData = {
   hour?: string;
   day?: string;
+  week?: string;
   consumption: number;
 };
 
 type UsageChartProps = {
   data: UsageData[];
-  timeInterval: 'day' | 'week';
+  timeInterval: 'day' | 'week' | 'month';
+};
+
+const intervalConfig = {
+  day: {
+    title: 'Consumo de Agua de Hoy',
+    description: 'Consumo por hora en Litros',
+    dataKey: 'hour',
+  },
+  week: {
+    title: 'Consumo Semanal de Agua',
+    description: 'Consumo diario en Litros durante la última semana',
+    dataKey: 'day',
+  },
+  month: {
+    title: 'Consumo Mensual de Agua',
+    description: 'Consumo semanal en Litros durante el último mes',
+    dataKey: 'week',
+  },
 };
 
 export default function UsageChart({ data, timeInterval }: UsageChartProps) {
-  const isWeekly = timeInterval === 'week';
-  const dataKey = isWeekly ? 'day' : 'hour';
+  const config = intervalConfig[timeInterval];
+  const dataKey = config.dataKey as keyof UsageData;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          {isWeekly ? 'Consumo Semanal de Agua' : 'Consumo de Agua de Hoy'}
-        </CardTitle>
-        <CardDescription>
-          {isWeekly
-            ? 'Consumo diario en Litros durante la última semana'
-            : 'Consumo por hora en Litros'}
-        </CardDescription>
+        <CardTitle>{config.title}</CardTitle>
+        <CardDescription>{config.description}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
@@ -66,8 +79,10 @@ export default function UsageChart({ data, timeInterval }: UsageChartProps) {
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => {
-                if (isWeekly) return value;
-                return parseInt(value) % 2 === 0 ? `${value}` : '';
+                if (timeInterval === 'day') {
+                  return parseInt(value) % 3 === 0 ? `${value}h` : '';
+                }
+                return value;
               }}
             />
             <YAxis

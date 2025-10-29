@@ -35,6 +35,13 @@ export const weeklyUsage = [
   { day: 'Dom', consumption: 200 },
 ];
 
+export const monthlyUsage = [
+    { week: 'Sem 1', consumption: 1200 },
+    { week: 'Sem 2', consumption: 1350 },
+    { week: 'Sem 3', consumption: 1100 },
+    { week: 'Sem 4', consumption: 1400 },
+]
+
 export const alerts = [
   {
     id: 1,
