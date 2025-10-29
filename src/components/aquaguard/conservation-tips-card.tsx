@@ -42,18 +42,18 @@ export default function ConservationTipsCard({
 
   return (
     <>
-      <Card className="bg-primary/10 border-primary/20 transition-all hover:shadow-md hover:-translate-y-1">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-primary">
-            Consejos de Ahorro por IA
-          </CardTitle>
-          <Lightbulb className="size-6 text-primary" />
+      <Card className="bg-primary/10 border-primary/20 transition-all hover:shadow-md hover:-translate-y-1 h-full flex flex-col">
+        <CardHeader>
+          <div className="flex items-center gap-3">
+             <Lightbulb className="size-6 text-primary" />
+             <CardTitle className="text-primary">Consejos de Ahorro por IA</CardTitle>
+          </div>
+          <CardDescription className="text-primary/80 pt-2">
+            Recibe consejos personalizados para ahorrar agua y reducir tu factura, generados por IA a partir de tus patrones de consumo.
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="text-xs text-primary/80 mb-3">
-            Recibe consejos personalizados para ahorrar agua según tu consumo.
-          </p>
-          <Button onClick={handleGetTips} className="w-full" size="sm">
+        <CardContent className="flex-1 flex flex-col justify-end">
+          <Button onClick={handleGetTips} className="w-full mt-auto">
             <Sparkles className="mr-2 size-4" />
             Generar Consejos
           </Button>

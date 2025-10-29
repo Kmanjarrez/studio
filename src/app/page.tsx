@@ -16,7 +16,7 @@ export default function Home() {
           <h2 id="overview-heading" className="sr-only">
             Resumen
           </h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 animate-in fade-in-0 slide-in-from-top-4 duration-500">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-in fade-in-0 slide-in-from-top-4 duration-500">
             <KpiCard
               title="Flujo Actual"
               value="5.2"
@@ -30,7 +30,6 @@ export default function Home() {
               icon={<Zap className="size-6 text-accent" />}
             />
             <ValveControl />
-            <ConservationTipsCard historicalData={weeklyUsage} />
           </div>
         </section>
         <section aria-labelledby="details-heading">
@@ -43,8 +42,9 @@ export default function Home() {
             <div className="lg:col-span-2">
               <UsageChart data={monthlyUsage} timeInterval="month" />
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 grid grid-cols-1 lg:grid-cols-2 gap-6">
               <AlertsCard alerts={alerts} />
+              <ConservationTipsCard historicalData={weeklyUsage} />
             </div>
           </div>
         </section>
