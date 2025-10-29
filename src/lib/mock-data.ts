@@ -26,32 +26,32 @@ export const dailyUsage = [
 ];
 
 export const weeklyUsage = [
-  { day: 'Mon', consumption: 150 },
-  { day: 'Tue', consumption: 165 },
-  { day: 'Wed', consumption: 140 },
-  { day: 'Thu', consumption: 170 },
-  { day: 'Fri', consumption: 180 },
-  { day: 'Sat', consumption: 210 },
-  { day: 'Sun', consumption: 200 },
+  { day: 'Lun', consumption: 150 },
+  { day: 'Mar', consumption: 165 },
+  { day: 'Mié', consumption: 140 },
+  { day: 'Jue', consumption: 170 },
+  { day: 'Vie', consumption: 180 },
+  { day: 'Sáb', consumption: 210 },
+  { day: 'Dom', consumption: 200 },
 ];
 
 export const alerts = [
   {
     id: 1,
     type: 'warning',
-    message: 'Potential leak detected. Unusual flow at 3 AM.',
-    time: '2 hours ago',
+    message: 'Posible fuga detectada. Flujo inusual a las 3 AM.',
+    time: 'Hace 2 horas',
   },
   {
     id: 2,
     type: 'info',
-    message: 'High water usage today. Consider shorter showers.',
-    time: '8 hours ago',
+    message: 'Alto consumo de agua hoy. Considera duchas más cortas.',
+    time: 'Hace 8 horas',
   },
    {
     id: 3,
     type: 'info',
-    message: 'You have saved 15% water compared to last week!',
-    time: '1 day ago',
+    message: '¡Has ahorrado un 15% de agua en comparación con la semana pasada!',
+    time: 'Hace 1 día',
   },
 ];

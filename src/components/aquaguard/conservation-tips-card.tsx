@@ -45,17 +45,17 @@ export default function ConservationTipsCard({
       <Card className="bg-primary/10 border-primary/20 transition-all hover:shadow-md hover:-translate-y-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-primary">
-            AI Conservation Tips
+            Consejos de Ahorro por IA
           </CardTitle>
           <Lightbulb className="size-6 text-primary" />
         </CardHeader>
         <CardContent>
           <p className="text-xs text-primary/80 mb-3">
-            Get personalized tips to save water based on your usage.
+            Recibe consejos personalizados para ahorrar agua según tu consumo.
           </p>
           <Button onClick={handleGetTips} className="w-full" size="sm">
             <Sparkles className="mr-2 size-4" />
-            Generate Tips
+            Generar Consejos
           </Button>
         </CardContent>
       </Card>
@@ -63,15 +63,15 @@ export default function ConservationTipsCard({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Your Personalized Water Saving Tips</DialogTitle>
+            <DialogTitle>Tus Consejos Personalizados para Ahorrar Agua</DialogTitle>
             <DialogDescription>
-              Based on your recent consumption, here are some ways you can save water:
+              Según tu consumo reciente, aquí tienes algunas formas de ahorrar agua:
             </DialogDescription>
           </DialogHeader>
           <ScrollArea className="h-72 w-full rounded-md border p-4">
             {isLoading ? (
               <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">Generating tips...</p>
+                <p className="text-muted-foreground">Generando consejos...</p>
               </div>
             ) : (
               <div className="whitespace-pre-wrap text-sm text-muted-foreground">
@@ -80,7 +80,7 @@ export default function ConservationTipsCard({
             )}
           </ScrollArea>
           <DialogFooter>
-            <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
+            <Button onClick={() => setIsDialogOpen(false)}>Cerrar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

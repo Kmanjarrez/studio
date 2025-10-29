@@ -8,7 +8,7 @@ export async function getConservationTips(historicalData: any[]): Promise<string
     const result = await generateWaterConservationTips({ historicalData: stringifiedData });
     return result.tips;
   } catch (error) {
-    console.error('Error generating conservation tips:', error);
-    return 'Sorry, we could not generate tips at this moment. Please try again later.';
+    console.error('Error al generar consejos de conservación:', error);
+    return 'Lo sentimos, no pudimos generar los consejos en este momento. Por favor, inténtalo de nuevo más tarde.';
   }
 }

@@ -1,11 +1,11 @@
 'use server';
 
 /**
- * @fileOverview A flow that generates personalized water conservation tips based on historical water consumption data.
+ * @fileOverview Un flujo que genera consejos personalizados para la conservación del agua basados en datos históricos de consumo.
  *
- * - generateWaterConservationTips - A function that generates water conservation tips.
- * - GenerateWaterConservationTipsInput - The input type for the generateWaterConservationTips function.
- * - GenerateWaterConservationTipsOutput - The return type for the generateWaterConservationTips function.
+ * - generateWaterConservationTips - Una función que genera consejos para la conservación del agua.
+ * - GenerateWaterConservationTipsInput - El tipo de entrada para la función generateWaterConservationTips.
+ * - GenerateWaterConservationTipsOutput - El tipo de retorno para la función generateWaterConservationTips.
  */
 
 import {ai} from '@/ai/genkit';
@@ -15,7 +15,7 @@ const GenerateWaterConservationTipsInputSchema = z.object({
   historicalData: z
     .string()
     .describe(
-      'Historical water consumption data in JSON format, including dates and consumption amounts.'
+      'Datos históricos de consumo de agua en formato JSON, incluyendo fechas y cantidades de consumo.'
     ),
 });
 export type GenerateWaterConservationTipsInput = z.infer<
@@ -25,7 +25,7 @@ export type GenerateWaterConservationTipsInput = z.infer<
 const GenerateWaterConservationTipsOutputSchema = z.object({
   tips: z
     .string()
-    .describe('Personalized water conservation tips based on the provided data.'),
+    .describe('Consejos personalizados de conservación de agua basados en los datos proporcionados.'),
 });
 export type GenerateWaterConservationTipsOutput = z.infer<
   typeof GenerateWaterConservationTipsOutputSchema
@@ -41,11 +41,11 @@ const prompt = ai.definePrompt({
   name: 'generateWaterConservationTipsPrompt',
   input: {schema: GenerateWaterConservationTipsInputSchema},
   output: {schema: GenerateWaterConservationTipsOutputSchema},
-  prompt: `You are a water conservation expert. Analyze the following historical water consumption data and provide personalized tips to reduce water usage.
+  prompt: `Eres un experto en conservación de agua. Analiza los siguientes datos históricos de consumo de agua y proporciona consejos personalizados en español para reducir el uso de agua.
 
-Historical Data: {{{historicalData}}}
+Datos Históricos: {{{historicalData}}}
 
-Provide specific, actionable tips based on the consumption patterns in the data. Focus on areas where the user can save water and money.
+Proporciona consejos específicos y prácticos basados en los patrones de consumo en los datos. Enfócate en áreas donde el usuario puede ahorrar agua y dinero.
 `,
 });
 

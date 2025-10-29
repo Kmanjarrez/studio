@@ -12,20 +12,20 @@ export default function ValveControl() {
   return (
     <Card className="transition-all hover:shadow-md hover:-translate-y-1">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">Main Valve</CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">Válvula Principal</CardTitle>
         <Power className="size-6 text-accent" />
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between space-x-2">
           <div className="flex-1">
-            <div className="text-2xl font-bold">{isValveOpen ? 'Open' : 'Closed'}</div>
+            <div className="text-2xl font-bold">{isValveOpen ? 'Abierta' : 'Cerrada'}</div>
             <p className="text-xs text-muted-foreground">
-              {isValveOpen ? 'Water supply is active' : 'Water supply is off'}
+              {isValveOpen ? 'Suministro de agua activo' : 'Suministro de agua cortado'}
             </p>
           </div>
           <div className="flex items-center space-x-2">
             <Label htmlFor="valve-switch" className="sr-only">
-              Main water valve switch
+              Interruptor de la válvula de agua principal
             </Label>
             <Switch
               id="valve-switch"

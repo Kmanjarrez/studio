@@ -14,19 +14,19 @@ export default function Home() {
       <main className="flex-1 p-4 md:p-6 lg:p-8 space-y-8">
         <section aria-labelledby="overview-heading">
           <h2 id="overview-heading" className="sr-only">
-            Overview
+            Resumen
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 animate-in fade-in-0 slide-in-from-top-4 duration-500">
             <KpiCard
-              title="Current Flow"
+              title="Flujo Actual"
               value="5.2"
               unit="L/min"
               icon={<Droplets className="size-6 text-accent" />}
             />
             <KpiCard
-              title="Today's Usage"
+              title="Consumo de Hoy"
               value="120.5"
-              unit="Litres"
+              unit="Litros"
               icon={<Zap className="size-6 text-accent" />}
             />
             <ValveControl />
@@ -35,7 +35,7 @@ export default function Home() {
         </section>
         <section aria-labelledby="details-heading">
           <h2 id="details-heading" className="sr-only">
-            Consumption Details
+            Detalles de Consumo
           </h2>
           <div className="grid gap-6 lg:grid-cols-1 animate-in fade-in-0 slide-in-from-top-8 duration-700">
             <div className="lg:col-span-1">

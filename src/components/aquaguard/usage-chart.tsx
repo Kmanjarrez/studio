@@ -17,7 +17,7 @@ import {
 
 const chartConfig = {
   consumption: {
-    label: 'Usage (L)',
+    label: 'Consumo (L)',
     color: 'hsl(var(--primary))',
   },
 } satisfies ChartConfig;
@@ -30,8 +30,8 @@ export default function UsageChart({ data }: UsageChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Today's Water Usage</CardTitle>
-        <CardDescription>Hourly consumption in Litres</CardDescription>
+        <CardTitle>Consumo de Agua de Hoy</CardTitle>
+        <CardDescription>Consumo por hora en Litros</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">

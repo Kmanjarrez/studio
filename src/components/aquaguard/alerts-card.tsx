@@ -33,8 +33,8 @@ export default function AlertsCard({ alerts }: AlertsCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Notifications</CardTitle>
-        <CardDescription>Recent alerts and updates on your water usage.</CardDescription>
+        <CardTitle>Notificaciones</CardTitle>
+        <CardDescription>Alertas y actualizaciones recientes sobre tu consumo de agua.</CardDescription>
       </CardHeader>
       <CardContent>
         {alerts.length > 0 ? (
@@ -59,7 +59,7 @@ export default function AlertsCard({ alerts }: AlertsCardProps) {
         ) : (
           <div className="text-center text-muted-foreground py-8">
             <Bell className="mx-auto size-12" />
-            <p className="mt-4">No new notifications.</p>
+            <p className="mt-4">No hay notificaciones nuevas.</p>
           </div>
         )}
       </CardContent>
