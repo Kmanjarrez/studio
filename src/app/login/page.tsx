@@ -23,7 +23,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Droplets } from 'lucide-react';
-import { signInUser } from '@/app/auth/actions';
+import { useAuth } from '@/context/auth-provider';
+import { getFirebaseAuthError } from '@/app/auth/actions';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Por favor, introduce un correo válido.' }),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { signInWithEmail } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,20 +47,20 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await signInUser(values);
-
-    if (result.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error al iniciar sesión',
-        description: result.error,
-      });
-    } else {
+    try {
+      await signInWithEmail(values.email, values.password);
       toast({
         title: '¡Bienvenido de nuevo!',
         description: 'Has iniciado sesión correctamente.',
       });
       router.push('/dashboard');
+    } catch (error: any) {
+        const errorMessage = await getFirebaseAuthError(error.code);
+        toast({
+            variant: 'destructive',
+            title: 'Error al iniciar sesión',
+            description: errorMessage,
+        });
     }
   }
 

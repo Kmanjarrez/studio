@@ -23,7 +23,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Droplets } from 'lucide-react';
-import { signUpUser } from '@/app/auth/actions';
+import { useAuth } from '@/context/auth-provider';
+import { getFirebaseAuthError } from '../auth/actions';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Por favor, introduce un correo válido.' }),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { signUpWithEmail } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,20 +47,20 @@ export default function RegisterPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await signUpUser(values);
-
-    if (result.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error en el registro',
-        description: result.error,
-      });
-    } else {
+    try {
+      await signUpWithEmail(values.email, values.password);
       toast({
         title: '¡Registro exitoso!',
         description: 'Tu cuenta ha sido creada. Ahora puedes iniciar sesión.',
       });
       router.push('/login');
+    } catch (error: any) {
+        const errorMessage = await getFirebaseAuthError(error.code);
+        toast({
+            variant: 'destructive',
+            title: 'Error en el registro',
+            description: errorMessage,
+        });
     }
   }
 
