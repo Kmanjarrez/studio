@@ -1,10 +1,10 @@
 'use client';
-import Header from '@/components/aquasense/header';
-import KpiCard from '@/components/aquasense/kpi-card';
-import ValveControl from '@/components/aquasense/valve-control';
-import UsageChart from '@/components/aquasense/usage-chart';
-import AlertsCard from '@/components/aquasense/alerts-card';
-import ConservationTipsCard from '@/components/aquasense/conservation-tips-card';
+import Header from '@/components/aquaguard/header';
+import KpiCard from '@/components/aquaguard/kpi-card';
+import ValveControl from '@/components/aquaguard/valve-control';
+import UsageChart from '@/components/aquaguard/usage-chart';
+import AlertsCard from '@/components/aquaguard/alerts-card';
+import ConservationTipsCard from '@/components/aquaguard/conservation-tips-card';
 import { dailyUsage, weeklyUsage, monthlyUsage, alerts } from '@/lib/mock-data';
 import { Droplets, Zap } from 'lucide-react';
 import { useAuth } from '@/context/auth-provider';

@@ -20,7 +20,7 @@ export default function Header() {
           </svg>
         </div>
         <h1 className="text-xl font-bold font-headline text-primary">
-          AquaSense
+          AquaGuard
         </h1>
       </div>
     </header>

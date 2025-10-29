@@ -66,13 +66,13 @@ export default function RegisterPage() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="mb-8 flex items-center gap-3 text-primary">
         <Droplets className="size-8" />
-        <h1 className="text-3xl font-bold">AquaSense</h1>
+        <h1 className="text-3xl font-bold">AquaGuard</h1>
       </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Crear Cuenta</CardTitle>
           <CardDescription>
-            Únete a AquaSense para empezar a monitorear tu consumo de agua.
+            Únete a AquaGuard para empezar a monitorear tu consumo de agua.
           </CardDescription>
         </CardHeader>
         <CardContent>
