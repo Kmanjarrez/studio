@@ -37,11 +37,11 @@ export default function Home() {
           <h2 id="details-heading" className="sr-only">
             Consumption Details
           </h2>
-          <div className="grid gap-6 lg:grid-cols-5 animate-in fade-in-0 slide-in-from-top-8 duration-700">
-            <div className="lg:col-span-3">
+          <div className="grid gap-6 lg:grid-cols-1 animate-in fade-in-0 slide-in-from-top-8 duration-700">
+            <div className="lg:col-span-1">
               <UsageChart data={dailyUsage} />
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               <AlertsCard alerts={alerts} />
             </div>
           </div>
