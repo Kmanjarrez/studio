@@ -4,7 +4,7 @@ import { AuthProvider } from '@/context/auth-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AquaSense',
+  title: 'My Water Monitor',
   description: 'Monitorea tu consumo de agua, previene fugas y ahorra agua con información impulsada por IA.',
 };
 

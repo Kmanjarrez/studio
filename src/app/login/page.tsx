@@ -66,7 +66,7 @@ export default function LoginPage() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="mb-8 flex items-center gap-3 text-primary">
         <Droplets className="size-8" />
-        <h1 className="text-3xl font-bold">AquaSense</h1>
+        <h1 className="text-3xl font-bold">My Water Monitor</h1>
       </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
