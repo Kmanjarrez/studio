@@ -24,7 +24,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Droplets } from 'lucide-react';
 import { useAuth } from '@/context/auth-provider';
-import { getFirebaseAuthError } from '@/app/auth/actions';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Por favor, introduce un correo válido.' }),
@@ -32,6 +31,19 @@ const formSchema = z.object({
     .string()
     .min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
 });
+
+function mapFirebaseAuthError(errorCode: string): string {
+  switch (errorCode) {
+    case 'auth/user-not-found':
+    case 'auth/invalid-email':
+      return 'No se encontró ningún usuario con este correo electrónico.';
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'La contraseña es incorrecta. Por favor, inténtalo de nuevo.';
+    default:
+      return 'Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.';
+  }
+}
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -55,7 +67,7 @@ export default function LoginPage() {
       });
       router.push('/dashboard');
     } catch (error: any) {
-        const errorMessage = await getFirebaseAuthError(error.code);
+        const errorMessage = mapFirebaseAuthError(error.code);
         toast({
             variant: 'destructive',
             title: 'Error al iniciar sesión',

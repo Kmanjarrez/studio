@@ -24,7 +24,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Droplets } from 'lucide-react';
 import { useAuth } from '@/context/auth-provider';
-import { getFirebaseAuthError } from '../auth/actions';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Por favor, introduce un correo válido.' }),
@@ -32,6 +31,19 @@ const formSchema = z.object({
     .string()
     .min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
 });
+
+function mapFirebaseAuthError(errorCode: string): string {
+  switch (errorCode) {
+    case 'auth/email-already-in-use':
+      return 'Este correo electrónico ya está en uso por otra cuenta.';
+    case 'auth/invalid-email':
+      return 'El formato del correo electrónico no es válido.';
+    case 'auth/weak-password':
+      return 'La contraseña es demasiado débil. Debe tener al menos 6 caracteres.';
+    default:
+      return 'Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.';
+  }
+}
 
 export default function RegisterPage() {
   const { toast } = useToast();
@@ -55,7 +67,7 @@ export default function RegisterPage() {
       });
       router.push('/login');
     } catch (error: any) {
-        const errorMessage = await getFirebaseAuthError(error.code);
+        const errorMessage = mapFirebaseAuthError(error.code);
         toast({
             variant: 'destructive',
             title: 'Error en el registro',
