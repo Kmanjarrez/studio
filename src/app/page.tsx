@@ -10,7 +10,7 @@ import {
   monthlyUsage,
   alerts,
 } from '@/lib/mock-data';
-import { Droplets, Zap } from 'lucide-react';
+import { Droplets, Zap, BarChart2, Bell, Home } from 'lucide-react';
 import {
   Tabs,
   TabsContent,
@@ -22,10 +22,10 @@ export default function Dashboard() {
   return (
     <main className="flex-1 p-4 md:p-6 lg:p-8 animate-in fade-in-0 slide-in-from-top-4 duration-500">
       <Tabs defaultValue="overview">
-        <TabsList className="mb-6">
-          <TabsTrigger value="overview">Vista General</TabsTrigger>
-          <TabsTrigger value="charts">Gráficas</TabsTrigger>
-          <TabsTrigger value="alerts">Alertas</TabsTrigger>
+        <TabsList className="mb-6 grid w-full grid-cols-3">
+          <TabsTrigger value="overview"><Home className="md:mr-2" /> <span className="hidden md:inline">Vista General</span></TabsTrigger>
+          <TabsTrigger value="charts"><BarChart2 className="md:mr-2" /> <span className="hidden md:inline">Gráficas</span></TabsTrigger>
+          <TabsTrigger value="alerts"><Bell className="md:mr-2" /> <span className="hidden md:inline">Alertas</span></TabsTrigger>
         </TabsList>
         <TabsContent value="overview" className="space-y-8">
           <section aria-labelledby="overview-heading" className="space-y-6">
@@ -64,7 +64,9 @@ export default function Dashboard() {
               <div className="grid gap-6 lg:grid-cols-2">
                 <UsageChart data={dailyUsage} timeInterval="day" />
                 <UsageChart data={weeklyUsage} timeInterval="week" />
-                <UsageChart data={monthlyUsage} timeInterval="month" />
+                <div className="lg:col-span-2">
+                  <UsageChart data={monthlyUsage} timeInterval="month" />
+                </div>
               </div>
             </section>
         </TabsContent>

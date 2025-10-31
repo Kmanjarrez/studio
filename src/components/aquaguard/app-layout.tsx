@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   SidebarProvider,
@@ -18,6 +19,7 @@ import {
   Settings,
   LifeBuoy,
   LogOut,
+  Gamepad2,
 } from 'lucide-react';
 import Header from './header';
 
@@ -54,25 +56,23 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton href="/" isActive={pathname === '/'}>
-                <Home />
-                Dashboard
+                <SidebarMenuButton asChild isActive={pathname === '/'}>
+                  <Link href="/">
+                    <Home />
+                    Dashboard
+                  </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === '/game'}>
+                <Link href="/game">
+                  <Gamepad2 />
+                  Juego
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#" isActive={pathname.startsWith('/charts')}>
-                <BarChart2 />
-                Gráficas
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton href="#" isActive={pathname === '/alerts'}>
-                <Bell />
-                Alertas
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton href="#" isActive={pathname === '/settings'}>
+              <SidebarMenuButton href="#" >
                 <Settings />
                 Configuración
               </SidebarMenuButton>
