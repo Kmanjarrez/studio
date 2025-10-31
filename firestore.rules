@@ -1,0 +1,158 @@
+/**
+ * @file Firestore Security Rules for AquaGuard.
+ *
+ * @core_philosophy This ruleset enforces a strict user-ownership model. Each user has exclusive access to their profile data,
+ *                 water consumption records, valve control logs, alerts, and conservation tips.
+ *
+ * @data_structure All data is nested under `/users/{userId}`, creating a clear ownership hierarchy.
+ *                 - `/users/{userId}/profile`: User profile information.
+ *                 - `/users/{userId}/waterConsumptionData/{dataId}`: Water consumption data.
+ *                 - `/users/{userId}/valveControlLogs/{logId}`: Valve control logs.
+ *                 - `/users/{userId}/alerts/{alertId}`: Alerts and notifications.
+ *                 - `/users/{userId}/conservationTips/{tipId}`: Water conservation tips.
+ *
+ * @key_security_decisions
+ *   - User listing is disallowed to protect privacy.
+ *   - All write operations are validated against the authenticated user's ID to prevent unauthorized data modification.
+ *   - The default security posture is strict; any ambiguous or unspecified access is explicitly denied.
+ *
+ * @denormalization_for_authorization N/A - Path-based ownership eliminates the need for data denormalization.
+ * @structural_segregation N/A - All data is private and user-specific.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Checks if the user is signed in.
+     * @return {boolean} True if the user is signed in, false otherwise.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * @description Checks if the authenticated user is the owner of the resource.
+     * @param {string} userId The user ID to compare against the authenticated user's ID.
+     * @return {boolean} True if the user is the owner, false otherwise.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * @description Checks if the authenticated user is the owner of the resource and the resource exists.
+     * @param {string} userId The user ID to compare against the authenticated user's ID.
+     * @return {boolean} True if the user is the owner and the resource exists, false otherwise.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+
+    /**
+     * @description Rules for user profiles.
+     * @path /users/{userId}/profile
+     * @allow (create) User 'A' with ID 'user_abc' can create their profile at /users/user_abc/profile.
+     * @allow (get) User 'A' with ID 'user_abc' can get their profile at /users/user_abc/profile.
+     * @allow (update) User 'A' with ID 'user_abc' can update their profile at /users/user_abc/profile.
+     * @allow (delete) User 'A' with ID 'user_abc' can delete their profile at /users/user_abc/profile.
+     * @deny (create) User 'B' with ID 'user_xyz' cannot create a profile for user 'A' at /users/user_abc/profile.
+     * @deny (get) User 'B' with ID 'user_xyz' cannot get user A's profile at /users/user_abc/profile.
+     * @deny (update) User 'B' with ID 'user_xyz' cannot update user A's profile at /users/user_abc/profile.
+     * @deny (delete) User 'B' with ID 'user_xyz' cannot delete user A's profile at /users/user_abc/profile.
+     * @principle Enforces document ownership for writes, restricts access to a user's own data tree, validates relational integrity between documents.
+     */
+    match /users/{userId}/profile {
+      allow get: if isOwner(userId);
+      allow list: if false; // User listing is not allowed.
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for water consumption data.
+     * @path /users/{userId}/waterConsumptionData/{dataId}
+     * @allow (create) User 'A' with ID 'user_abc' can create water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @allow (get) User 'A' with ID 'user_abc' can get their water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @allow (update) User 'A' with ID 'user_abc' can update their water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @allow (delete) User 'A' with ID 'user_abc' can delete their water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @deny (create) User 'B' with ID 'user_xyz' cannot create water consumption data for user 'A' at /users/user_abc/waterConsumptionData/data1.
+     * @deny (get) User 'B' with ID 'user_xyz' cannot get user A's water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @deny (update) User 'B' with ID 'user_xyz' cannot update user A's water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @deny (delete) User 'B' with ID 'user_xyz' cannot delete user A's water consumption data at /users/user_abc/waterConsumptionData/data1.
+     * @principle Enforces document ownership for writes, restricts access to a user's own data tree.
+     */
+    match /users/{userId}/waterConsumptionData/{dataId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for valve control logs.
+     * @path /users/{userId}/valveControlLogs/{logId}
+     * @allow (create) User 'A' with ID 'user_abc' can create a valve control log at /users/user_abc/valveControlLogs/log1.
+     * @allow (get) User 'A' with ID 'user_abc' can get their valve control log at /users/user_abc/valveControlLogs/log1.
+     * @allow (update) User 'A' with ID 'user_abc' can update their valve control log at /users/user_abc/valveControlLogs/log1.
+     * @allow (delete) User 'A' with ID 'user_abc' can delete their valve control log at /users/user_abc/valveControlLogs/log1.
+     * @deny (create) User 'B' with ID 'user_xyz' cannot create a valve control log for user 'A' at /users/user_abc/valveControlLogs/log1.
+     * @deny (get) User 'B' with ID 'user_xyz' cannot get user A's valve control log at /users/user_abc/valveControlLogs/log1.
+     * @deny (update) User 'B' with ID 'user_xyz' cannot update user A's valve control log at /users/user_abc/valveControlLogs/log1.
+     * @deny (delete) User 'B' with ID 'user_xyz' cannot delete user A's valve control log at /users/user_abc/valveControlLogs/log1.
+     * @principle Enforces document ownership for writes, restricts access to a user's own data tree.
+     */
+    match /users/{userId}/valveControlLogs/{logId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for alerts.
+     * @path /users/{userId}/alerts/{alertId}
+     * @allow (create) User 'A' with ID 'user_abc' can create an alert at /users/user_abc/alerts/alert1.
+     * @allow (get) User 'A' with ID 'user_abc' can get their alert at /users/user_abc/alerts/alert1.
+     * @allow (update) User 'A' with ID 'user_abc' can update their alert at /users/user_abc/alerts/alert1.
+     * @allow (delete) User 'A' with ID 'user_abc' can delete their alert at /users/user_abc/alerts/alert1.
+     * @deny (create) User 'B' with ID 'user_xyz' cannot create an alert for user 'A' at /users/user_abc/alerts/alert1.
+     * @deny (get) User 'B' with ID 'user_xyz' cannot get user A's alert at /users/user_abc/alerts/alert1.
+     * @deny (update) User 'B' with ID 'user_xyz' cannot update user A's alert at /users/user_abc/alerts/alert1.
+     * @deny (delete) User 'B' with ID 'user_xyz' cannot delete user A's alert at /users/user_abc/alerts/alert1.
+     * @principle Enforces document ownership for writes, restricts access to a user's own data tree.
+     */
+    match /users/{userId}/alerts/{alertId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for conservation tips.
+     * @path /users/{userId}/conservationTips/{tipId}
+     * @allow (create) User 'A' with ID 'user_abc' can create a conservation tip at /users/user_abc/conservationTips/tip1.
+     * @allow (get) User 'A' with ID 'user_abc' can get their conservation tip at /users/user_abc/conservationTips/tip1.
+     * @allow (update) User 'A' with ID 'user_abc' can update their conservation tip at /users/user_abc/conservationTips/tip1.
+     * @allow (delete) User 'A' with ID 'user_abc' can delete their conservation tip at /users/user_abc/conservationTips/tip1.
+     * @deny (create) User 'B' with ID 'user_xyz' cannot create a conservation tip for user 'A' at /users/user_abc/conservationTips/tip1.
+     * @deny (get) User 'B' with ID 'user_xyz' cannot get user A's conservation tip at /users/user_abc/conservationTips/tip1.
+     * @deny (update) User 'B' with ID 'user_xyz' cannot update user A's conservation tip at /users/user_abc/conservationTips/tip1.
+     * @deny (delete) User 'B' with ID 'user_xyz' cannot delete user A's conservation tip at /users/user_abc/conservationTips/tip1.
+     * @principle Enforces document ownership for writes, restricts access to a user's own data tree.
+     */
+    match /users/{userId}/conservationTips/{tipId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+}

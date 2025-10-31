@@ -1,0 +1,307 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user profile within the AquaGuard application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user profile."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number."
+        },
+        "address": {
+          "type": "string",
+          "description": "The user's address."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user profile was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user profile was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "WaterConsumptionData": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WaterConsumptionData",
+      "type": "object",
+      "description": "Represents water consumption data recorded by the ESP32 sensor.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the water consumption data entry."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N WaterConsumptionData)"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp of when the water consumption data was recorded.",
+          "format": "date-time"
+        },
+        "flowRate": {
+          "type": "number",
+          "description": "Water flow rate measured by the sensor (e.g., liters per minute)."
+        },
+        "totalConsumption": {
+          "type": "number",
+          "description": "Total water consumption since the last reset (e.g., liters)."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "timestamp",
+        "flowRate",
+        "totalConsumption"
+      ]
+    },
+    "ValveControlLog": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ValveControlLog",
+      "type": "object",
+      "description": "Represents a log of valve control actions (open/close) performed by the user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the valve control log entry."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N ValveControlLog)"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp of when the valve control action was performed.",
+          "format": "date-time"
+        },
+        "action": {
+          "type": "string",
+          "description": "The action performed on the valve (e.g., 'open', 'close')."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason for the valve control action (e.g., 'manual', 'leak detected')."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "timestamp",
+        "action"
+      ]
+    },
+    "Alert": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Alert",
+      "type": "object",
+      "description": "Represents an alert or notification sent to the user regarding water consumption.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the alert."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Alert)"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp of when the alert was generated.",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of alert (e.g., 'high_consumption', 'potential_leak')."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message content of the alert."
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Indicates whether the alert has been read by the user."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "timestamp",
+        "type",
+        "message",
+        "isRead"
+      ]
+    },
+    "ConservationTip": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ConservationTip",
+      "type": "object",
+      "description": "Represents a water conservation tip tailored to the user's consumption patterns.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the conservation tip."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N ConservationTip)"
+        },
+        "tip": {
+          "type": "string",
+          "description": "The water conservation tip message."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Explanation of why the tip is relevant to the user's consumption patterns."
+        },
+        "effectivenessScore": {
+          "type": "number",
+          "description": "A score indicating the potential effectiveness of the tip for the user."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "tip",
+        "rationale",
+        "effectivenessScore"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/profile",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information.  Path-based ownership ensures only the user can access their profile.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/waterConsumptionData/{dataId}",
+        "definition": {
+          "entityName": "WaterConsumptionData",
+          "schema": {
+            "$ref": "#/backend/entities/WaterConsumptionData"
+          },
+          "description": "Stores water consumption data for a specific user. Path-based ownership ensures only the user can access their data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "dataId",
+              "description": "The unique identifier for the water consumption data entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/valveControlLogs/{logId}",
+        "definition": {
+          "entityName": "ValveControlLog",
+          "schema": {
+            "$ref": "#/backend/entities/ValveControlLog"
+          },
+          "description": "Stores valve control logs for a specific user. Path-based ownership ensures only the user can access their logs.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "logId",
+              "description": "The unique identifier for the valve control log entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/alerts/{alertId}",
+        "definition": {
+          "entityName": "Alert",
+          "schema": {
+            "$ref": "#/backend/entities/Alert"
+          },
+          "description": "Stores alerts for a specific user. Path-based ownership ensures only the user can access their alerts.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "alertId",
+              "description": "The unique identifier for the alert."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/conservationTips/{tipId}",
+        "definition": {
+          "entityName": "ConservationTip",
+          "schema": {
+            "$ref": "#/backend/entities/ConservationTip"
+          },
+          "description": "Stores conservation tips for a specific user. Path-based ownership ensures only the user can access their tips.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "tipId",
+              "description": "The unique identifier for the conservation tip."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to ensure Authorization Independence and support the QAPs, focusing on user-owned data and minimizing `get()` calls in security rules.  Each collection uses path-based ownership for simple and secure access control. Data is structured under the `users/{userId}` path to represent a `User 1:N Entity` relationship.\n\n*   **Authorization Independence:** Achieved by using path-based ownership (`/users/{userId}/...`).  Each document implicitly inherits the authorization context from its parent user document. No `get()` calls are needed to verify ownership.\n*   **QAPs Support:** The structure supports secure `list` operations because access control is determined by the path.  Listing data under `/users/{userId}/...` is secure, as rules can easily verify `request.auth.uid == userId`.\n*   **Global Roles (DBAC):** Not applicable as there are no global roles required.\n*   **Explicit State Modeling:** Enforces a dedicated `status` field for state management. \n\nEach entity follows a consistent naming convention and authorization pattern."
+  }
+}
