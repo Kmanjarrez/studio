@@ -13,9 +13,9 @@ export default function Header() {
         <SidebarTrigger className="md:hidden" />
         <div>
           <h1 className="text-xl font-bold text-foreground">
-            Bienvenido de nuevo
+            Hola, Guardián del Agua
           </h1>
-          <p className="text-sm text-muted-foreground capitalize">{today}</p>
+          <p className="text-sm text-muted-foreground">Cada gota cuenta. ¡Revisa tu consumo de hoy!</p>
         </div>
       </div>
     </header>
