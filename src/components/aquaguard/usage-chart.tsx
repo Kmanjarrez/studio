@@ -25,7 +25,7 @@ const chartConfig = {
 type UsageData = {
   hour?: string;
   day?: string;
-  week?: string;
+  month?: string;
   consumption: number;
 };
 
@@ -46,9 +46,9 @@ const intervalConfig = {
     dataKey: 'day',
   },
   month: {
-    title: 'Consumo Mensual de Agua',
-    description: 'Consumo semanal en Litros durante el último mes',
-    dataKey: 'week',
+    title: 'Resumen de Consumo Anual',
+    description: 'Consumo promedio mensual en Litros',
+    dataKey: 'month',
   },
 };
 

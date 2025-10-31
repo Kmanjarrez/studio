@@ -12,9 +12,7 @@ export default function ChartsPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <UsageChart data={dailyUsage} timeInterval="day" />
           <UsageChart data={weeklyUsage} timeInterval="week" />
-          <div className="lg:col-span-2">
-            <UsageChart data={monthlyUsage} timeInterval="month" />
-          </div>
+          <UsageChart data={monthlyUsage} timeInterval="month" />
         </div>
       </section>
     </main>

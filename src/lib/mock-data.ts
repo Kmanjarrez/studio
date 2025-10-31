@@ -36,10 +36,18 @@ export const weeklyUsage = [
 ];
 
 export const monthlyUsage = [
-    { week: 'Sem 1', consumption: 1200 },
-    { week: 'Sem 2', consumption: 1350 },
-    { week: 'Sem 3', consumption: 1100 },
-    { week: 'Sem 4', consumption: 1400 },
+    { month: 'Ene', consumption: 4850 },
+    { month: 'Feb', consumption: 4500 },
+    { month: 'Mar', consumption: 5100 },
+    { month: 'Abr', consumption: 4900 },
+    { month: 'May', consumption: 5300 },
+    { month: 'Jun', consumption: 5200 },
+    { month: 'Jul', consumption: 5500 },
+    { month: 'Ago', consumption: 5400 },
+    { month: 'Sep', consumption: 5100 },
+    { month: 'Oct', consumption: 4800 },
+    { month: 'Nov', consumption: 4600 },
+    { month: 'Dic', consumption: 4700 },
 ]
 
 export const alerts = [
