@@ -40,4 +40,7 @@ const pwaConfig = withPWA({
   disable: process.env.NODE_ENV === 'development',
 });
 
-export default pwaConfig(nextConfig);
+// Don't use PWA in development, it's not compatible with Turbopack
+export default process.env.NODE_ENV === 'development'
+  ? nextConfig
+  : pwaConfig(nextConfig);
