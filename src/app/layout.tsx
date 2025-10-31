@@ -3,6 +3,8 @@ import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 import { AppLayout } from '@/components/aquaguard/app-layout';
 import { ThemeProvider } from '@/components/theme-provider';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { AuthLayout } from '@/components/aquaguard/auth-layout';
 
 export const metadata: Metadata = {
   title: 'AquaGuard',
@@ -25,17 +27,21 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body className="font-body antialiased">
+        <FirebaseClientProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <AppLayout>
-              {children}
-            </AppLayout>
+            <AuthLayout>
+              <AppLayout>
+                {children}
+              </AppLayout>
+            </AuthLayout>
             <Toaster />
           </ThemeProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );

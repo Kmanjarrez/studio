@@ -20,6 +20,8 @@ import {
   Gamepad2,
 } from 'lucide-react';
 import Header from './header';
+import { useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 
 const WaterDropIcon = () => (
   <svg
@@ -39,6 +41,11 @@ const WaterDropIcon = () => (
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const auth = useAuth();
+
+  const handleSignOut = () => {
+    signOut(auth);
+  };
 
   return (
     <SidebarProvider>
@@ -88,7 +95,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#">
+              <SidebarMenuButton onClick={handleSignOut}>
                 <LogOut />
                 Cerrar Sesión
               </SidebarMenuButton>
