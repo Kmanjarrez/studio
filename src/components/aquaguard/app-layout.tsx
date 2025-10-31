@@ -14,8 +14,6 @@ import {
 } from '@/components/ui/sidebar';
 import {
   Home,
-  BarChart2,
-  Bell,
   Settings,
   LifeBuoy,
   LogOut,
@@ -72,9 +70,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#" >
-                <Settings />
-                Configuración
+              <SidebarMenuButton asChild isActive={pathname === '/settings'}>
+                <Link href="/settings">
+                  <Settings />
+                  Configuración
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
