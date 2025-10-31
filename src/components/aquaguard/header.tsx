@@ -13,7 +13,7 @@ export default function Header() {
         <SidebarTrigger className="md:hidden" />
         <div>
           <h1 className="text-xl font-bold text-foreground">
-            Hola, Guardián del Agua
+            Hola,
           </h1>
           <p className="text-sm text-muted-foreground">Cada gota cuenta. ¡Revisa tu consumo de hoy!</p>
         </div>
