@@ -1,4 +1,5 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -37,6 +38,8 @@ const WaterDropIcon = () => (
 );
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -51,25 +54,25 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#" isActive>
+              <SidebarMenuButton href="/" isActive={pathname === '/'}>
                 <Home />
                 Dashboard
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#">
+              <SidebarMenuButton href="/charts" isActive={pathname === '/charts'}>
                 <BarChart2 />
                 Gráficas
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#">
+              <SidebarMenuButton href="/alerts" isActive={pathname === '/alerts'}>
                 <Bell />
                 Alertas
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="#">
+              <SidebarMenuButton href="/settings" isActive={pathname === '/settings'}>
                 <Settings />
                 Configuración
               </SidebarMenuButton>
