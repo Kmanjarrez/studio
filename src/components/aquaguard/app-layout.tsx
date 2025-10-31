@@ -60,19 +60,19 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="/charts" isActive={pathname === '/charts'}>
+              <SidebarMenuButton href="#" isActive={pathname.startsWith('/charts')}>
                 <BarChart2 />
                 Gráficas
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="/alerts" isActive={pathname === '/alerts'}>
+              <SidebarMenuButton href="#" isActive={pathname === '/alerts'}>
                 <Bell />
                 Alertas
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton href="/settings" isActive={pathname === '/settings'}>
+              <SidebarMenuButton href="#" isActive={pathname === '/settings'}>
                 <Settings />
                 Configuración
               </SidebarMenuButton>
